@@ -1,19 +1,54 @@
 {
-  "name": "frontend-final-boss-mcp",          
+  "name": "frontend-tech-lead-mcp",
   "version": "1.0.0",
-  "description": "A reusable MCP server CLI for frontend tools",
-  "main": "dist/index.js",                      
+  "description": "A powerful MCP server for frontend tech leads with project analysis, framework detection, and development tools",
+  "main": "dist/index.js",
   "bin": {
-    "frontend-final-boss-mcp": "dist/index.js"  
+    "frontend-tech-lead-mcp": "dist/index.js"
   },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsc && tsc --watch"
+    "dev": "tsc && tsc --watch",
+    "prepublishOnly": "npm run build",
+    "test": "node dist/index.js --test"
   },
-  "author": "Your Name",
+  "author": {
+    "name": "Omkar Nath",
+    "url": "https://github.com/omkar-nath"
+  },
   "license": "MIT",
-  "keywords": ["mcp", "frontend", "cli", "ai", "cursor"],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "frontend",
+    "tech-lead",
+    "cli",
+    "ai",
+    "cursor",
+    "react",
+    "vue",
+    "angular",
+    "typescript",
+    "project-analysis",
+    "development-tools"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omkar-nath/frontend-tech-lead-mcp.git"
+  },
+  "homepage": "https://github.com/omkar-nath/frontend-tech-lead-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/omkar-nath/frontend-tech-lead-mcp/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "devDependencies": {
     "@types/node": "^24.0.15",
     "ts-node": "^10.9.2",

@@ -1,0 +1,25 @@
+{
+  "name": "frontend-final-boss-mcp",          
+  "version": "1.0.0",
+  "description": "A reusable MCP server CLI for frontend tools",
+  "main": "dist/index.js",                      
+  "bin": {
+    "frontend-final-boss-mcp": "dist/index.js"  
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && tsc --watch"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "keywords": ["mcp", "frontend", "cli", "ai", "cursor"],
+  "devDependencies": {
+    "@types/node": "^24.0.15",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.16.0"
+  }
+}

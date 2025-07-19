@@ -1,38 +1,7 @@
 import path from "path";
-import fs from "fs";
+import { promises as fs } from "fs";
 
 
-function detectProjectPath(): string {
-    // Check environment variables that editors set
-    const envPaths = [
-      process.env.CURSOR_PROJECT_PATH,
-      process.env.VSCODE_CWD,
-      process.env.PROJECT_ROOT,
-      process.env.WORKSPACE_FOLDER
-    ];
-
-    for (const envPath of envPaths) {
-      if (envPath && fs.existsSync(envPath)) {
-        console.error(`🔍 Using project path from environment: ${envPath}`);
-        return envPath;
-      }
-    }
-
-    // Look for nearest package.json (walk up directory tree)
-    let currentDir = process.cwd();
-    while (currentDir !== path.dirname(currentDir)) {
-      const packageJsonPath = path.join(currentDir, 'package.json');
-      if (fs.existsSync(packageJsonPath)) {
-        console.error(`🔍 Found package.json, using project path: ${currentDir}`);
-        return currentDir;
-      }
-      currentDir = path.dirname(currentDir);
-    }
-
-    // Fall back to current working directory
-    console.error(`🔍 Using current working directory: ${process.cwd()}`);
-    return process.cwd();
-  }
 
 async function getProjectInfo(projectPath: string) {
   try {

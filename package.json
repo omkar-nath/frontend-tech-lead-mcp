@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A powerful MCP server for frontend tech leads with project analysis, framework detection, and development tools",
   "main": "dist/index.js",
+  "type": "commonjs",
   "bin": {
     "frontend-tech-lead-mcp": "dist/index.js"
   },
@@ -51,7 +52,6 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.15",
-    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {

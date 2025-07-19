@@ -7,13 +7,16 @@ import {
   ListToolsRequestSchema
 } from "@modelcontextprotocol/sdk/types.js";
 import { getProjectInfo } from "./utils/getProjectInfo.js";
+import path from "path";
+import fs from "fs";  // Use regular fs for sync operations
 
 class FrontendFinalBoss {
   private server: Server;
   private projectPath: string;
 
   constructor() {
-    this.projectPath = process.cwd();
+    // Enhanced project path detection - ADD THIS
+    this.projectPath = this.detectProjectPath();
     console.error(`🔧 Detected project path: ${this.projectPath}`);
     
     this.server = new Server({
@@ -27,6 +30,39 @@ class FrontendFinalBoss {
     
     console.error('🔧 Server created, setting up handlers...');
     this.setupToolHandlers();
+  }
+
+  // ADD THIS NEW METHOD
+  private detectProjectPath(): string {
+    // Check environment variables that editors set
+    const envPaths = [
+      process.env.CURSOR_PROJECT_PATH,
+      process.env.VSCODE_CWD,
+      process.env.PROJECT_ROOT,
+      process.env.WORKSPACE_FOLDER
+    ];
+
+    for (const envPath of envPaths) {
+      if (envPath && fs.existsSync(envPath)) {
+        console.error(`🔍 Using project path from environment: ${envPath}`);
+        return envPath;
+      }
+    }
+
+    // Look for nearest package.json (walk up directory tree)
+    let currentDir = process.cwd();
+    while (currentDir !== path.dirname(currentDir)) {
+      const packageJsonPath = path.join(currentDir, 'package.json');
+      if (fs.existsSync(packageJsonPath)) {
+        console.error(`🔍 Found package.json, using project path: ${currentDir}`);
+        return currentDir;
+      }
+      currentDir = path.dirname(currentDir);
+    }
+
+    // Fall back to current working directory
+    console.error(`🔍 Using current working directory: ${process.cwd()}`);
+    return process.cwd();
   }
 
   private setupToolHandlers() {
@@ -86,11 +122,13 @@ class FrontendFinalBoss {
         
         switch (name) {
           case "hello_world":
+            // ENHANCE THIS - get project name for greeting
+            const projectName = this.getProjectName();
             result = {
               content: [
                 {
                   type: 'text',
-                  text: `Hello, ${args?.name || 'World'}! Frontend Final Boss MCP server 🚀`
+                  text: `Hello, ${args?.name || 'World'}! I am your frontend Tech Lead MCP 🚀\n\nCurrently analyzing project: ${projectName}`
                 }
               ]
             };
@@ -121,6 +159,21 @@ class FrontendFinalBoss {
     });
 
     console.error('✅ Tool handlers setup complete');
+  }
+
+  // ADD THIS HELPER METHOD
+  private getProjectName(): string {
+    try {
+      const packageJsonPath = path.join(this.projectPath, 'package.json');
+      if (fs.existsSync(packageJsonPath)) {
+        const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf-8');
+        const packageJson = JSON.parse(packageJsonContent);
+        return packageJson.name || path.basename(this.projectPath);
+      }
+    } catch (error) {
+      console.error('⚠️ Error reading package.json:', error);
+    }
+    return path.basename(this.projectPath);
   }
 
   async run() {

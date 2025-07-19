@@ -1,6 +1,6 @@
 {
   "name": "frontend-tech-lead-mcp",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A powerful MCP server for frontend tech leads with project analysis, framework detection, and development tools",
   "main": "dist/index.js",
   "type": "commonjs",
